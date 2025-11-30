@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Тест API: Order</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background: #f4f4f9;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            margin: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            color: white;
+            border-radius: 6px;
+        }
+
+        .get {
+            background: #28a745;
+        }
+
+        .post {
+            background: #007bff;
+        }
+
+        .put {
+            background: #ffc107;
+            color: black;
+        }
+
+        .patch {
+            background: #6c757d;
+        }
+
+        .delete {
+            background: #dc3545;
+        }
+
+        .result {
+            margin-top: 30px;
+            padding: 15px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            white-space: pre-wrap;
+            font-family: monospace;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Тест REST API: /order</h1>
+    <p>Нажми на кнопку — будет отправлен запрос к <code>/uk-UA/order</code></p>
+
+    <button class="btn get" onclick="send('GET')">GET — Получить заказы</button>
+    <button class="btn post" onclick="send('POST')">POST — Создать заказ</button>
+    <button class="btn put" onclick="send('PUT')">PUT — Заменить заказ</button>
+    <button class="btn patch" onclick="send('PATCH')">PATCH — Частично обновить</button>
+    <button class="btn delete" onclick="send('DELETE')">DELETE — Удалить заказ</button>
+
+    <h2>Ответ сервера:</h2>
+    <div id="result" class="result">Нажмите кнопку для отправки запроса...</div>
+
+    <script>
+        async function send(method) {
+            const url = "/uk-UA/order?htctrl=1";
+            const opts = { method };
+            if (method !== 'GET' && method !== 'DELETE') {
+                opts.headers = { "Content-Type": "application/json" };
+                opts.body = JSON.stringify({ test: true });
+            }
+
+            const resp = await fetch(url, opts);
+            const text = await resp.text();
+            document.getElementById("result").textContent =
+                `Статус: ${resp.status} ${resp.statusText}\\n\\n` + text;
+        }
+    </script>
+</body>
+
+</html>
